@@ -6,7 +6,6 @@ export default function getQuestionType() {
     const width = {
         bodywidth: document.body.clientWidth + 'px',
         searchwidth: document.body.clientWidth * 0.7 + 'px',
-        btnwidth: document.body.clientWidth * 0.7 + 'px',
     }
     const tiku = ref('angui')
     const querymethod = ref('index')

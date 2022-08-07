@@ -11,21 +11,23 @@ const {searchc, qtype, questions, search, clickSilder, width,tiku,querymethod} =
       <input type="checkbox" value="single" checked v-model="qtype">单选
       <input type="checkbox" value="muti" checked v-model="qtype">多选
       <input type="checkbox" value="judge" checked v-model="qtype">判断
+      <input type="checkbox" value="fill" checked v-model="qtype">填空
     </div>
     <div>
       检索题库
       <select v-model="tiku">
         <option disabled value="">请选择题库</option>
         <option value="angui">安规954</option>
-        <option value="safeC">安全登记C</option>
+        <option value="safeC">安全等级C430</option>
+        <option value="bigdata">SB大数据</option>
       </select>
     </div>
     <div>
       检索方式
       <select v-model="querymethod">
         <option disabled>检索方式</option>
-        <option value="index">拼音首字母(4-9)</option>
-        <option value="regex">Regex</option>
+        <option value="index">拼音首字母(3-9)</option>
+        <option value="regex">直接匹配</option>
         <option value="fulltext">关键字(分词长度2)</option>
       </select>
     </div>

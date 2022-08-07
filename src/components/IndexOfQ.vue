@@ -21,7 +21,7 @@ const {searchc, qtype, questions, search, clickSilder, width,tiku,querymethod} =
       </select>
     </div>
     <div>
-      检索题库
+      检索方式
       <select v-model="querymethod">
         <option disabled>检索方式</option>
         <option value="index">拼音首字母(4-9)</option>
@@ -37,7 +37,7 @@ const {searchc, qtype, questions, search, clickSilder, width,tiku,querymethod} =
       <ul class="ul">
         <li v-for="value in questions">
           <div class="q">{{ value.q }}</div>
-          <div class="a">{{ value.a }}</div>
+          <div class="a" v-for="opt in  value.a">{{ opt }}</div>
         </li>
       </ul>
     </div>

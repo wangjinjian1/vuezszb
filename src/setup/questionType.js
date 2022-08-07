@@ -13,18 +13,6 @@ export default function getQuestionType() {
     const qtype = ref(['single','muti','judge'])
     const questions = ref([])
     const searchc = ref('')
-    // const gettype = () => {
-    //     axios({
-    //         method: 'get', url: '/api/getType',
-    //     }).then(response => {
-    //         if (response.status === 200) {
-    //             qtype.value = response.data
-    //         } else {
-    //             qtype.value = []
-    //         }
-    //
-    //     })
-    // }
     const axisopost = () => {
         axios({
             method: 'post', url: '/api/search?', params: {
@@ -69,8 +57,6 @@ export default function getQuestionType() {
         }
     };
 
-
-    // onMounted(gettype)
     onUnmounted(debouncecancel, stop)
     return {
         searchc, qtype, questions, search, clickSilder, width, tiku,querymethod

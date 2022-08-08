@@ -1,11 +1,13 @@
-import {onMounted, onUnmounted, ref, watchEffect} from "vue";
+import { ref, watchEffect,watch} from "vue";
 import axios from "axios"
 import _ from 'loadsh'
 
 export default function getQuestionType() {
     const width = {
         bodywidth: document.body.clientWidth + 'px',
-        searchwidth: document.body.clientWidth * 0.7 + 'px',
+        searchwidth: document.body.clientWidth * 0.6 + 'px',
+        btnwidth: document.body.clientWidth * 0.15 + 'px',
+        optwidth:document.body.clientWidth * 0.8 + 'px',
     }
     const tiku = ref('angui')
     const querymethod = ref('index')
@@ -27,24 +29,16 @@ export default function getQuestionType() {
             console.log(res)
         })
     }
-
-    const search = _.debounce(axisopost, 500, {leading: false, trailing: true})
-    const debouncecancel = () => {
-        search.cancel()
-    }
-
-    const throttle = _.throttle(axisopost, 500, {leading: true, trailing: false})
-
-    const stop = watchEffect(fn => {
+    const search = _.debounce(axisopost, 750, {leading: false, trailing: true})
+    const stop = watchEffect(() => {
         if (searchc.value.length >= 3) {
-            throttle()
+            search()
         }
-        fn(() => {
-            throttle.cancel()
-        })
     })
-
-
+    watch([querymethod,tiku],([currentB,preB],[currentS,preS])=>{
+        console.log(preB,preS)
+        search()
+    })
     const clickSilder = () => {
         // 获取DOM元素
         let el = document.querySelector('#outer');
@@ -55,9 +49,10 @@ export default function getQuestionType() {
             document.documentElement.scrollTop = el.offsetTop;
         }
     };
-
-    onUnmounted(debouncecancel, stop)
+    const clear = () => {
+      searchc.value=''
+    }
     return {
-        searchc, qtype, questions, search, clickSilder, width, tiku,querymethod
+        searchc, qtype, questions, search, clickSilder, width, tiku,querymethod,clear
     }
 }

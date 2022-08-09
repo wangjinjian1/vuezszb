@@ -1,12 +1,11 @@
 <script setup>
 import getQuestionType from "@/setup/questionType.js"
 
-const {searchc, qtype, questions, search, clickSilder, width,tiku,querymethod,clear} = getQuestionType()
+const {searchc, qtype, questions, search, clickSilder, width,tiku,querymethod,clear,input} = getQuestionType()
 </script>
 
 <template>
   <div class="outer" id="outer">
-    <div class="title">{{'我爱学习'}}</div>
     <div class="checktype">
       检索类型
       <input type="checkbox" value="single" checked v-model="qtype">单选
@@ -34,9 +33,9 @@ const {searchc, qtype, questions, search, clickSilder, width,tiku,querymethod,cl
       </select>
     </div>
     <div class="search">
-      <input type="text" class="searchbox" v-model.trim="searchc" @keydown.enter="search">
+      <input type="text" class="searchbox" v-model.trim="searchc" @keydown.enter="search" ref="input">
       <button class="btnS" @click="search">搜索</button>
-      <button class="btnC" @click="clear">清空</button>
+      <button class="btnC" @click="clear" >清空</button>
     </div>
     <div class="que">
       <ul class="ul">

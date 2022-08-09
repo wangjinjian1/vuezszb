@@ -1,4 +1,4 @@
-import { ref, watchEffect,watch} from "vue";
+import {ref, watchEffect, watch,onMounted} from "vue";
 import axios from "axios"
 import _ from 'loadsh'
 
@@ -7,11 +7,12 @@ export default function getQuestionType() {
         bodywidth: document.body.clientWidth + 'px',
         searchwidth: document.body.clientWidth * 0.6 + 'px',
         btnwidth: document.body.clientWidth * 0.15 + 'px',
-        optwidth:document.body.clientWidth * 0.8 + 'px',
+        optwidth: document.body.clientWidth * 0.8 + 'px',
     }
+    const input=ref('')
     const tiku = ref('angui')
     const querymethod = ref('index')
-    const qtype = ref(['single','muti','judge'])
+    const qtype = ref(['single', 'muti', 'judge','fill'])
     const questions = ref([])
     const searchc = ref('')
     const axisopost = () => {
@@ -28,6 +29,7 @@ export default function getQuestionType() {
         }).catch(res => {
             console.log(res)
         })
+        input.value.focus()
     }
     const search = _.debounce(axisopost, 750, {leading: false, trailing: true})
     const stop = watchEffect(() => {
@@ -35,9 +37,14 @@ export default function getQuestionType() {
             search()
         }
     })
-    watch([querymethod,tiku],([currentB,preB],[currentS,preS])=>{
-        console.log(preB,preS)
-        search()
+    watch([querymethod, tiku, qtype], () => {
+        if (searchc.value.length >= 3) {
+            search()
+        }
+
+    })
+    onMounted(()=>{
+        input.value.focus()
     })
     const clickSilder = () => {
         // 获取DOM元素
@@ -50,9 +57,10 @@ export default function getQuestionType() {
         }
     };
     const clear = () => {
-      searchc.value=''
+        searchc.value = ''
+        input.value.focus()
     }
     return {
-        searchc, qtype, questions, search, clickSilder, width, tiku,querymethod,clear
+        searchc, qtype, questions, search, clickSilder, width, tiku, querymethod, clear,input
     }
 }

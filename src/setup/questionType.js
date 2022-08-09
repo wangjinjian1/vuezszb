@@ -38,6 +38,9 @@ export default function getQuestionType() {
         }
     })
     watch([querymethod, tiku, qtype], () => {
+        if (searchc.value==='sqlmode' || searchc.value==='hxgd'){
+            return
+        }
         if (searchc.value.length >= 3) {
             search()
         }

@@ -1,4 +1,4 @@
-import {ref, watchEffect, watch,onMounted} from "vue";
+import {ref, watchEffect, watch, onMounted, onUnmounted} from "vue";
 import axios from "axios"
 import _ from 'loadsh'
 
@@ -9,10 +9,18 @@ export default function getQuestionType() {
         btnwidth: document.body.clientWidth * 0.15 + 'px',
         optwidth: document.body.clientWidth * 0.8 + 'px',
     }
-    const input=ref('')
     const tiku = ref('angui')
     const querymethod = ref('index')
-    const qtype = ref(['single', 'muti', 'judge','fill'])
+    const qtype = ref(['single', 'muti', 'judge', 'fill'])
+    var info = JSON.parse(window.localStorage.getItem('angui'))
+    if (info===null) {
+        info={}
+    }else {
+        tiku.value = info.tiku
+        querymethod.value = info.querymethod
+        qtype.value = info.qtype
+    }
+    const input = ref('')
     const questions = ref([])
     const searchc = ref('')
     const axisopost = () => {
@@ -20,9 +28,7 @@ export default function getQuestionType() {
             method: 'post', url: '/api/search?', params: {
                 type: qtype.value.toString()
             }, data: {
-                que: searchc.value,
-                source: tiku.value,
-                method: querymethod.value
+                que: searchc.value, source: tiku.value, method: querymethod.value
             }
         }).then(response => {
             questions.value = response.data
@@ -38,15 +44,18 @@ export default function getQuestionType() {
         }
     })
     watch([querymethod, tiku, qtype], () => {
-        if (searchc.value==='sqlmode' || searchc.value==='hxgd'){
+        if (searchc.value === 'sqlmode' || searchc.value === 'hxgd') {
             return
         }
         if (searchc.value.length >= 3) {
             search()
         }
-
+        info['tiku'] = tiku.value
+        info['querymethod'] = querymethod.value
+        info['qtype'] = qtype.value
+        window.localStorage.setItem('angui', JSON.stringify(info))
     })
-    onMounted(()=>{
+    onMounted(() => {
         input.value.focus()
     })
     const clickSilder = () => {
@@ -64,6 +73,6 @@ export default function getQuestionType() {
         input.value.focus()
     }
     return {
-        searchc, qtype, questions, search, clickSilder, width, tiku, querymethod, clear,input
+        searchc, qtype, questions, search, clickSilder, width, tiku, querymethod, clear, input
     }
 }

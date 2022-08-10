@@ -16,6 +16,9 @@ export default function getQuestionType() {
     var info = JSON.parse(window.localStorage.getItem('angui'))
     if (info === null) {
         info = {}
+        info['tiku'] = tiku.value
+        info['querymethod'] = querymethod.value
+        info['qtype'] = qtype.value
     } else {
         tiku.value = info.tiku
         querymethod.value = info.querymethod

@@ -1,9 +1,9 @@
-import {createRouter, createWebHashHistory} from "vue-router";
+import {createRouter, createWebHistory} from "vue-router";
 
 const router = createRouter({
     routes: [{
         path: '/', name: 'IndexOfQ', component: () => import('@/components/IndexOfQ.vue')
-    }], history: createWebHashHistory()
+    }], history: createWebHistory()
 
 })
 export default router

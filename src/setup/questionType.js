@@ -1,4 +1,5 @@
-import {ref, watchEffect, watch, onMounted, onUnmounted} from "vue";
+import {ref, watchEffect, watch, onMounted} from "vue";
+import {onBeforeRouteLeave} from "vue-router";
 import axios from "axios"
 import _ from 'loadsh'
 
@@ -13,9 +14,9 @@ export default function getQuestionType() {
     const querymethod = ref('index')
     const qtype = ref(['single', 'muti', 'judge', 'fill'])
     var info = JSON.parse(window.localStorage.getItem('angui'))
-    if (info===null) {
-        info={}
-    }else {
+    if (info === null) {
+        info = {}
+    } else {
         tiku.value = info.tiku
         querymethod.value = info.querymethod
         qtype.value = info.qtype
@@ -38,22 +39,43 @@ export default function getQuestionType() {
         input.value.focus()
     }
     const search = _.debounce(axisopost, 750, {leading: false, trailing: true})
-    const stop = watchEffect(() => {
+    watchEffect(() => {
+        if (searchc.value.startsWith('sqlmode') || searchc.value.startsWith('hxgd')) {
+            return
+        }
         if (searchc.value.length >= 3) {
             search()
         }
     })
-    watch([querymethod, tiku, qtype], () => {
+    watch(tiku, (news, olds) => {
+        info['tiku'] = tiku.value
+        window.localStorage.setItem('angui', JSON.stringify(info))
         if (searchc.value === 'sqlmode' || searchc.value === 'hxgd') {
             return
         }
         if (searchc.value.length >= 3) {
             search()
         }
-        info['tiku'] = tiku.value
+    })
+    watch(querymethod, (news, olds) => {
         info['querymethod'] = querymethod.value
+        window.localStorage.setItem('angui', JSON.stringify(info))
+        if (searchc.value === 'sqlmode' || searchc.value === 'hxgd') {
+            return
+        }
+        if (searchc.value.length >= 3) {
+            search()
+        }
+    })
+    watch(qtype, (news, olds) => {
         info['qtype'] = qtype.value
         window.localStorage.setItem('angui', JSON.stringify(info))
+        if (searchc.value.startsWith('sqlmode') || searchc.value.startsWith('hxgd')) {
+            return
+        }
+        if (searchc.value.length >= 3) {
+            search()
+        }
     })
     onMounted(() => {
         input.value.focus()
@@ -67,7 +89,7 @@ export default function getQuestionType() {
             // firefox
             document.documentElement.scrollTop = el.offsetTop;
         }
-    };
+    }
     const clear = () => {
         searchc.value = ''
         input.value.focus()

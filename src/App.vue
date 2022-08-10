@@ -1,11 +1,7 @@
-<script setup>
-import View from '@/components/IndexOfQ.vue'
+<template>
+  <router-view/>
+</template>
+<script>
+export default {}
 </script>
 
-<template>
-  <View />
-</template>
-
-<style scoped>
-
-</style>

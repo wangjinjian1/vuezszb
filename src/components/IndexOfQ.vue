@@ -19,7 +19,8 @@ const {searchc, qtype, questions, search, clickSilder, width,tiku,querymethod,cl
         <option disabled value="">请选择题库</option>
         <option value="angui">安规954</option>
         <option value="anquanc">安全等级C430</option>
-        <option value="bigdata">SB大数据</option>
+        <option value="bigdata">大数据</option>
+        <option value="shujuzt">数据中台</option>
       </select>
     </div>
     <div>

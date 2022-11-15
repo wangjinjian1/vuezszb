@@ -21,6 +21,7 @@ const {searchc, qtype, questions, search, clickSilder, width,tiku,querymethod,cl
         <option value="anquanc">安全等级C430</option>
         <option value="bigdata">大数据</option>
         <option value="shujuzt">数据中台</option>
+        <option value="zjg">中级工</option>
       </select>
     </div>
     <div>
